@@ -31,3 +31,91 @@ class MockerV2:
         new_game.move_history = game.move_history.copy()
         new_game.board = np.copy(game.board)
         return new_game
+    
+# moved over
+# organized weird
+
+    # def helper_make_move(self,moves):
+    #     game = GameV2()
+    #     for move in moves:
+    #         game.make_move(move)
+    #     return game
+
+    # def player_1_next_move_win(self):
+    #     end_game = np.array([
+    #         [1, 1, -1, -1, 0, 1, -1],
+    #         [-1, 1, 1, 1, 0, -1, 1],
+    #         [1, 1, -1, -1, -1, 1, 1],
+    #         [-1, -1, -1, 1, 1, -1, -1],
+    #         [1, 1, 1, -1, -1, -1, 1],
+    #         [-1, -1, 1, 1, 1, -1, -1]
+    #     ], dtype=int)
+        
+    #     return self.helper_make_move(end_game)
+    
+    # # Red can win in 2 moves or less
+    # def mock_end_game_situation(self):
+    #     end_game = np.array([
+    #         [1, 1, -1, -1, 0, 0, -1],
+    #         [-1, 1, 1, 1, 0, -1, 1],
+    #         [1, 1, -1, -1, 0, 1, 1],
+    #         [-1, -1, -1, 1, 1, -1, -1],
+    #         [1, 1, 1, -1, -1, -1, 1],
+    #         [-1, -1, 1, 1, 1, -1, -1]
+    #     ], dtype=int)
+        
+    #     return self.helper_make_move(end_game)
+
+    # # Red can win in 3 moves or less
+    # def mock_end_game_situation_3_moves(self):
+    #     end_game = np.array([
+    #         [1, 1, -1, -1, 0, 0, 0],
+    #         [-1, 1, 1, 1, 0, -1, 0],
+    #         [1, 1, -1, -1, 0, 1, 1],
+    #         [-1, -1, -1, 1, 1, -1, -1],
+    #         [1, 1, 1, -1, -1, -1, 1],
+    #         [-1, -1, 1, 1, 1, -1, -1]
+    #     ], dtype=int)
+        
+    #     return self.helper_make_move(end_game)
+
+    # # Red can win in 4 moves or less
+    # def mock_end_game_situation_4_moves(self):
+    #     end_game = np.array([
+    #         [1, 1, -1, -1, 0, 0, 0],
+    #         [-1, 1, 1, 1, 0, 0, 0],
+    #         [1, 1, -1, -1, 0, 1, 1],
+    #         [-1, -1, -1, 1, 0, -1, -1],
+    #         [1, 1, 1, -1, -1, -1, 1],
+    #         [-1, -1, 1, 1, 1, -1, -1]
+    #     ], dtype=int)
+        
+    #     return self.helper_make_move(end_game)
+    
+    # # Red can win in 5 moves or less
+    # def mock_end_game_situation_5_moves(self):
+    #     end_game = np.array([
+    #         [1, 1, -1, -1, 0, 0, 0],
+    #         [-1, 1, 1, 1, 0, 0, 0],
+    #         [1, 1, -1, -1, 0, 0, 1],
+    #         [-1, -1, -1, 1, 0, -1, -1],
+    #         [1, 1, 1, -1, 0, -1, 1],
+    #         [-1, -1, 1, 1, 1, -1, -1]
+    #     ], dtype=int)
+        
+    #     return self.helper_make_move(end_game)
+    
+    # # Red can win in 6 moves or less
+    # def mock_end_game_situation_6_moves(self):
+    #     end_game = np.array([
+    #         [1, 1, -1, -1, 0, 0, 0],
+    #         [-1, 1, 1, 1, 0, 0, 0],
+    #         [1, 1, -1, -1, 0, 0, 0],
+    #         [-1, -1, -1, 1, 0, 0, -1],
+    #         [1, 1, 1, -1, 0, -1, 1],
+    #         [-1, -1, 1, 1, 1, -1, -1]
+    #     ], dtype=int)
+        
+    #     return self.helper_make_move(end_game)
+    
+    

@@ -90,8 +90,9 @@ class MinimaxAgentV2:
         Maximizing layer of the minimax algorithm with alpha-beta pruning.
         """
         result = self.game.evaluate_board()
-        if depth == self.depth or result is not None:
-            # print(f"Eval: {self.game.evaluate_board()}")
+        if depth == self.depth:
+            return 0 # we assume everything is a tie
+        elif result is not None:
             return result
 
         max_eval = float('-inf')
@@ -115,8 +116,9 @@ class MinimaxAgentV2:
         Minimizing layer of the minimax algorithm with alpha-beta pruning.
         """
         result = self.game.evaluate_board()
-        if depth == self.depth or result is not None:
-            # print(f"Eval: {self.game.evaluate_board()}")
+        if depth == self.depth:
+            return 0 # we assume everything is a tie
+        elif result is not None:
             return result
 
         min_eval = float('inf')
