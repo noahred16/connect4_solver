@@ -1,82 +1,144 @@
-from game.board import Board
+import numpy as np
 from game.game import Game
 
-# Relevant functions 
-# get_valid_moves
-# make_move
-# evaluate_move
-# undo_move
-
-# MaxValue and MinValue are used to determine the best move for the agent
-# Each takes a state, a, b, max_depth. 
 class MinimaxAgent:
-    def __init__(self, game: Game, player=1, depth=7000):
+    def __init__(self, game: Game, depth=100):
         self.game = game
-        self.player = player
         self.depth = depth
+        self.debug = False
+        self.debug_depth = 0
 
     def make_move(self):
-        """Determines the best move using the minimax algorithm with alpha-beta pruning."""
-        best_score = float('-inf')
-        best_move = None
-        alpha = float('-inf')
-        beta = float('inf')
-        board = self.game.board
-        for move in board.get_valid_moves():
-            # print(f"Move: {move}")
-            self.game.make_move(move, self.player)
-            score = self.min_value(move, self.depth - 1, alpha, beta)
-            # print(f"Board: {board.board}")
-            # board.showPrettyBoard()
-            self.game.undo_move()
-            print(f"Move: {move} with score {score}")
-            if score > best_score:
-                best_score = score
-                best_move = move
-            alpha = max(alpha, score)  # Update alpha for alpha-beta pruning
-            break
-        print(f"Best Move: {best_move} with score {best_score}")
-        return best_move
+        move = self.best_move()
+        self.game.make_move(move)
+        return move
 
-    def max_value(self, move, depth, alpha, beta):
-        """Evaluate the max value of the minimax function with alpha-beta pruning."""
-        result = self.game.evaluate_move(move)
-        if depth == 0 or result is not None:
+    def best_move(self):
+        """
+        Determine the best move by running the maximizer from the root.
+        """
+        # max_eval = float('-inf')
+        # min_eval = float('inf')
+        # best_col = None
+        # alpha = float('-inf')
+        # beta = float('inf')
+
+        # for move in self.game.get_legal_moves():
+        #     isPlayer1 = self.game.current_player == 1
+        #     self.game.make_move(move)
+
+        #     if move == 5: 
+        #         self.debug = True
+        #     else:
+        #         self.debug = False
+
+        #     if isPlayer1:
+        #         eval = self.max_value(0, alpha, beta)
+        #         print(f"Move {move} with eval {eval}")
+        #         if eval > max_eval:
+        #             max_eval = eval
+        #             best_col = move
+        #         alpha = max(alpha, eval)
+        #     else:
+        #         eval = self.min_value(0, alpha, beta)
+        #         if eval < min_eval:
+        #             min_eval = eval
+        #             best_col = move
+        #         beta = min(beta, eval)
+
+        #     self.game.undo_move()
+        isPlayer1 = self.game.current_player == 1
+        
+        best_move = None
+        if isPlayer1:
+            best_eval = float('-inf')    
+            for move in self.game.get_legal_moves():
+                self.game.make_move(move)
+                value = self.min_value(0, float('-inf'), float('inf'))
+                self.game.undo_move()
+                if value > best_eval:
+                    best_eval = value
+                    best_move = move
+        else:
+            best_eval = float('inf')
+            for move in self.game.get_legal_moves():
+                self.game.make_move(move)
+                value = self.max_value(0, float('-inf'), float('inf'))
+                self.game.undo_move()
+                if value < best_eval:
+                    best_eval = value
+                    best_move = move
+        if best_move is None:
+            ValueError("No move found")
+            # return np.random.choice(self.game.get_legal_moves())            
+        
+        return best_move
+            
+        
+        
+        # if self.game.current_player == 1:
+        #     print("Player 1")
+        #     best_col = self.max_value(0, float('-inf'), float('inf'))
+        # else:
+        #     best_col = self.min_value(0, float('-inf'), float('inf'))
+        
+        # print("Best move: ", best_col)
+        # return best_col
+
+    def max_value(self, depth, alpha, beta):
+        """
+        Maximizing layer of the minimax algorithm with alpha-beta pruning.
+        """
+        result = self.game.evaluate_board()
+        if depth == self.depth:
+            return 0 # we assume everything is a tie
+        elif result is not None:
             return result
 
         max_eval = float('-inf')
-        for move in self.game.board.get_valid_moves():
-            self.game.make_move(move, self.player)
-            eval = self.min_value(move, depth - 1, alpha, beta)
+        for move in self.game.get_legal_moves():
+            # if depth == 0:
+            #     print(f"Move {move}, Alpha: {alpha}, Beta: {beta}")
+            self.game.make_move(move)
+            eval = self.min_value(depth + 1, alpha, beta)
             self.game.undo_move()
             max_eval = max(max_eval, eval)
             alpha = max(alpha, eval)
             if beta <= alpha:
-                break  # Beta cut-off
+                break
+        # if self.debug and depth <= self.debug_depth:
+        # if depth <= self.debug_depth:
+        #     print(" " * depth + f"Max-Value: {max_eval} For depth {depth} and move {move}")
         return max_eval
 
-    def min_value(self, move, depth, alpha, beta):
-        """Evaluate the min value of the minimax function with alpha-beta pruning."""
-        result = self.game.evaluate_move(move)
-        # print(f"Min-Value: {result}")
-        # print(f"Board: {self.game.board.board}")
-        if depth == 0 or result is not None:
+    def min_value(self, depth, alpha, beta):
+        """
+        Minimizing layer of the minimax algorithm with alpha-beta pruning.
+        """
+        result = self.game.evaluate_board()
+        if depth == self.depth:
+            return 0 # we assume everything is a tie
+        elif result is not None:
             return result
-        # print(f"Min-Move: {move}")
 
         min_eval = float('inf')
-        for move in self.game.board.get_valid_moves():
-            self.game.make_move(move, -self.player)
-            print(f"sub-move {move} with eval")
-            temp_result = self.game.evaluate_move(move)
-            if temp_result is not None:
-                print(f"winner sub-move {move} with eval {temp_result}")
-                self.game.board.showPrettyBoard()
-                return temp_result
-            eval = self.max_value(move, depth - 1, alpha, beta)
+        for move in self.game.get_legal_moves():
+            self.game.make_move(move)
+            eval = self.max_value(depth + 1, alpha, beta)
+            # if depth == 1:
+            #     print(f"Sub-move: {move} with eval {eval}")
             self.game.undo_move()
             min_eval = min(min_eval, eval)
             beta = min(beta, eval)
             if beta <= alpha:
                 break
+        # if self.debug and depth <= self.debug_depth:
+        # if depth <= self.debug_depth:
+            # print(f"Min-Value: {min_eval} For depth {depth} and move {move}")
+            # print(" " * depth + f"Min-Value: {min_eval} For depth {depth} and move {move}")
         return min_eval
+
+# Usage example:
+# Assuming you have an instance of Game called game_instance
+# minimax = MinimaxAB(game_instance)
+# print("Best move:", minimax.best_move())

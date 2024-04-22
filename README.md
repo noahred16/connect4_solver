@@ -137,7 +137,7 @@ Experimental Results
 ## Helpful commands
 Update list of all installed packages in your current environment  
 `pip freeze > requirements.txt`  
-
+`git config core.fileMode false`
 
 
 ## Resources

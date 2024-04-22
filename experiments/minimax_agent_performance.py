@@ -2,9 +2,9 @@ import sys
 # sys.path.append('/mnt/c/Users/NoahSmith/OneDrive - Northeastern University/CS5100/Assignments/Project/connect4_solver')
 sys.path.append('/Users/noahredsmith/Library/CloudStorage/OneDrive-NortheasternUniversity/CS5100/Assignments/Project/connect4_solver')
 
-from agents.minimax_agent_v2 import MinimaxAgentV2
-from agents.random_agent_v2 import RandomAgentV2
-from game.game_v2 import GameV2
+from agents.minimax_agent import MinimaxAgent
+from agents.random_agent import RandomAgent
+from game.game import Game
 
 import time
 from matplotlib import pyplot as plt
@@ -14,10 +14,10 @@ import numpy as np
 
 # Lets compare against random
 
-game = GameV2()
+game = Game()
 
-player1 = MinimaxAgentV2(game, depth=3)
-player2 = RandomAgentV2(game)
+player1 = MinimaxAgent(game, depth=3)
+player2 = RandomAgent(game)
 players = [player1, player2]
 
 num_of_games = 500
@@ -61,7 +61,7 @@ exit()
 
 # Lets graph the increase in time it takes to make a move as the depth increases
 # for each first move lets test how long it takes. and then average the results per depth
-# game = GameV2()
+# game = Game()
 # max_depth = 12
 # data_sum= np.zeros(max_depth)
 # num_of_trials = 1
@@ -69,7 +69,7 @@ exit()
 #     game.make_move(i)
 #     for j in range(max_depth):
 #         start = time.time()
-#         agent = MinimaxAgentV2(game, depth=j)
+#         agent = MinimaxAgent(game, depth=j)
 #         move = agent.make_move()
 #         end = time.time()
 #         data_sum[j] += end - start

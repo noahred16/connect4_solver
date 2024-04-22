@@ -1,11 +1,11 @@
-from .game_v2 import GameV2
+from .game import Game
 
 import numpy as np
 
-class MockerV2:
+class Mocker:
     def __init__(self, moves=[]):
         self.game_states = []
-        game = GameV2()
+        game = Game()
         self.game_states.append(game)
         
         if not moves:
@@ -24,8 +24,8 @@ class MockerV2:
             self.game_states.append(game)
 
 
-    def deep_copy(self, game: GameV2):
-        new_game = GameV2(board=game.board, current_player=game.current_player)
+    def deep_copy(self, game: Game):
+        new_game = Game(board=game.board, current_player=game.current_player)
         new_game.result = game.result
         new_game.move_count = game.move_count
         new_game.move_history = game.move_history.copy()
@@ -36,7 +36,7 @@ class MockerV2:
 # organized weird
 
     # def helper_make_move(self,moves):
-    #     game = GameV2()
+    #     game = Game()
     #     for move in moves:
     #         game.make_move(move)
     #     return game
