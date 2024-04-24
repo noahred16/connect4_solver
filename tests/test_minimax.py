@@ -154,6 +154,21 @@ def test_start_game():
     assert move >= 0
     
     
+# @pytest.mark.timeout(20)
+# def test_start_game():
+#     mocker = Mocker()
+#     start_game: Game = mocker.game_states[-22]
+#     start_game.print_pretty()
+#     start_game.print_url()
+#     assert start_game.current_player == 1
+#     # assert start_game.move_count == 0
+#     assert start_game.evaluate_board() == None
+#     assert start_game.result == None
+    
+#     agent = MinimaxAgent(start_game, 2)
+#     move = agent.make_move()
+#     assert move >= 31
+    
     
 # moved over old tests ~~~~~~~~~~~~
 

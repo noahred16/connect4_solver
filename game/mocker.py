@@ -2,6 +2,8 @@ from .game import Game
 
 import numpy as np
 
+# Can use this to mock games, you just take the url and convert it to a list of moves
+# https://connect4.gamesolver.org/?pos=44444432655
 class Mocker:
     def __init__(self, moves=[]):
         self.game_states = []

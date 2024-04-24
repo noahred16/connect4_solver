@@ -28,9 +28,8 @@ class Game:
                 self.move_count += 1
                 self.move_history.append((row, column))  # save move to history
                 self.current_player = -self.current_player
-                break
-            else:
-                ValueError("Invalid move")
+                return
+        raise ValueError("Invalid move")
 
     def undo_move(self):
         """Remove the last token placed on the board."""
@@ -41,15 +40,16 @@ class Game:
             self.current_player = -self.current_player
             self.result = None
         else:
-            ValueError("No moves to undo")
+            raise ValueError("No moves to undo")
 
     # result is not set unless we evaluate. thats fine.
     def evaluate_board(self):
         """
         Evaluate the board for the current player, using last move made and last player
         """
-        if not self.move_history:
-            ValueError("No moves made")
+        if self.move_count == 0:
+            return None
+            # raise ValueError("No moves made")
         row, column = self.move_history[-1]
         player = self.board[row][column]
         
@@ -102,6 +102,14 @@ class Game:
         print("---------------")
         print(" 0 1 2 3 4 5 6")
         print("\n")
+        
+    def print_url(self):
+        # https://connect4.gamesolver.org/?pos=44444456233333565556621211
+        url = "https://connect4.gamesolver.org/?pos="
+        # loop through history
+        for row, column in self.move_history:
+            url += str(column+1)
+        print(url)
     
     def ugly_print(self):
         print(self.board)
