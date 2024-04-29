@@ -1,6 +1,10 @@
 import numpy as np
+import hashlib
 
 # Helpful connect 4 functions
+
+def board_hash(state):
+    return hashlib.sha256(str(state).encode()).hexdigest()
 
 def get_legal_moves(board: np.ndarray) -> list:
     """
@@ -8,8 +12,8 @@ def get_legal_moves(board: np.ndarray) -> list:
     """
     # return [i for i in range(7) if board[0][i] == 0]
     legal_moves = []
-    # search_order = [0, 1, 2, 3, 4, 5, 6]
-    search_order = [3, 2, 4, 1, 5, 0, 6]
+    search_order = [0, 1, 2, 3, 4, 5, 6]
+    # search_order = [3, 2, 4, 1, 5, 0, 6]
     for column in search_order:
         if board[0][column] == 0:
             legal_moves.append(column)
@@ -69,13 +73,13 @@ def undo_move(board: np.ndarray, move: tuple) -> np.ndarray:
     board[row][column] = 0
     return board
 
-def print_pretty(board: np.ndarray):
+def print_pretty(board: np.ndarray, indent=''):
     """
     Print the board in a pretty way
     """
     print("\n")
     for row in range(6):
-        print("|", end="")
+        print(indent, "|", end="")
         for col in range(7):
             if board[row][col] == 1:
                 print("X|", end="")
@@ -83,8 +87,8 @@ def print_pretty(board: np.ndarray):
                 print("O|", end="")
             else:
                 print(" |", end="")
-        print("\n")
-    print("---------------")
-    print(" 0 1 2 3 4 5 6")
+        print(indent, "\n")
+    print(indent, "---------------")
+    print(indent, " 0 1 2 3 4 5 6")
     # print("\n")
     

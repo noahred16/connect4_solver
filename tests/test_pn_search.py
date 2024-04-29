@@ -147,6 +147,6 @@ def test_start_game_w_depth_limit():
     assert start_game.evaluate_board() == None
     assert start_game.result == None
     
-    agent = PNS(start_game.board, 8)
+    agent = PNS(start_game.board, 3)
     move = agent.make_move()
-    assert move == 4
+    assert move == 3

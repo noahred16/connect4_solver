@@ -1,10 +1,6 @@
 import numpy as np
 from typing import List
-# from game.game import Game
 from game.util import get_legal_moves, evaluate_board, make_move, undo_move, print_pretty
-
-# no more game class. raw board array.
-# w utils such as get_legal_moves, make_move, undo_move, evaluate_board
 
 
 class Node:
@@ -24,7 +20,43 @@ class Node:
         self.proof = 1 # proof number
         self.disproof = 1 # disproof number
         self.value = 'unknown'  # Values can be 'proven', 'disproven', 'unknown'
+
+    def print_node(self):
+        padding = self.depth * "  "
+        parent = self.parent
+        childindex = None
+        if parent:
+            for child in parent.children:
+                if child == self:
+                    childindex = parent.children.index(child)
+                    # print(padding + "Child index: ", childindex)
+                    print(padding + "Child Move: ", self.move[1])
+                    break
+        else:
+            print("Root node")
         
+        indent = padding + '|'
+        print(self.print_helper(self.state[0], indent), "Depth: ", self.depth, "Move: ", self.move, "Proof/Disproof", self.proof, self.disproof)
+        print(self.print_helper(self.state[1], indent))
+        print(self.print_helper(self.state[2], indent), "Expanded: ", self.expanded, "Value: ", self.value)
+        print(self.print_helper(self.state[3], indent), "Children: ", len(self.children))
+        print(self.print_helper(self.state[4], indent), "Parent move: ", childindex)
+        print(self.print_helper(self.state[5], indent))
+        print(padding + " 0 1 2 3 4 5 6")
+        print('')
+
+    def print_helper(self, row, string):
+        for i in range(len(row)):
+            if row[i] == 0:
+                string += " |"
+            elif row[i] == 1:
+                string += "X|"
+            else:
+                string += "O|"
+        return string
+
+
+
 class PNS:
     def __init__(self, board, depth=50):
         self.board = board
@@ -38,7 +70,7 @@ class PNS:
         # print
         # self.game.make_move(move)
         return move
-    
+
     def best_move(self, board: np.ndarray):
         possible_moves = get_legal_moves(board)
 
@@ -62,9 +94,7 @@ class PNS:
         # if there are non-losing moves, return the first one
         else:
             return non_losing_moves[0]
-            
-        
-        
+
     def pnsearch(self, board: np.ndarray):
         root = Node(board)
         evaluation = "unknown"
@@ -191,42 +221,4 @@ class PNS:
         # print("---")
         self.setProofAndDisproofNumbers(root)
         # print("~~~")
-        # exit()
         return root
-        
-        
-        
-        
-        
-        
-        
-    #     self.setProofAndDisproofNumbers(isPlayer1)
-        
-    # def setProofAndDisproofNumbers(self, isPlayer1):
-    #     # if count game has valid moves > 0 
-    #     # player 1 is the OR player aka the maximizing player
-    #     # player 2 is the AND player aka the minimizing player
-        
-    #     player_type = "OR" if isPlayer1 else "AND"
-        
-    #     proof = None
-    #     disproof = None
-        
-    #     # if self.game.get_legal_moves():
-    #     children = self.game.get_legal_moves()
-    #     if len(children) > 0:
-    #         print("Legal moves exist")
-    #         if player_type == "AND":
-    #             print("AND player")
-    #         else: # OR player
-    #             print("OR player")
-    #             # inf
-    #             proof = float('inf')                
-    #             disproof = 0
-    #             for child in children:
-    #                 self.game.make_move(child)
-                    
-        
-        
-    #     # print("temp")
-    #     # pass
